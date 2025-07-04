@@ -1,0 +1,24 @@
+# Development docker-compose for faster iteration
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: qafka-postgres-dev
+    environment:
+      POSTGRES_DB: qafka
+      POSTGRES_USER: qafka_user
+      POSTGRES_PASSWORD: qafka_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - qafka-dev-network
+
+volumes:
+  postgres_dev_data:
+
+networks:
+  qafka-dev-network:
+    driver: bridge

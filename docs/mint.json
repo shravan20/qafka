@@ -1,0 +1,74 @@
+{
+  "name": "Qafka",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#1E40AF",
+    "anchors": {
+      "from": "#3B82F6",
+      "to": "#1E40AF"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/shravan20/qafka"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "/quickstart"
+  },
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "installation"
+      ]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "concepts/queues",
+        "concepts/messages",
+        "concepts/workers"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api/authentication",
+        "api/queues",
+        "api/messages",
+        "api/workers"
+      ]
+    },
+    {
+      "group": "Plugins",
+      "pages": [
+        "plugins/overview",
+        "plugins/queue-backends",
+        "plugins/alerts"
+      ]
+    },
+    {
+      "group": "Deployment",
+      "pages": [
+        "deployment/docker",
+        "deployment/kubernetes",
+        "deployment/monitoring"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/shravan20/qafka",
+    "discord": "https://discord.gg/qafka"
+  }
+}

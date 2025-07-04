@@ -1,0 +1,233 @@
+---
+title: Quick Start
+description: 'Get Qafka running in 5 minutes'
+---
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Go 1.21+](https://golang.org/doc/install)
+- [Node.js 18+](https://nodejs.org/en/download/)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+## Option 1: Automated Setup (Recommended)
+
+The fastest way to get started is using our automated setup script:
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/shravan20/qafka.git
+    cd qafka
+    ```
+  </Step>
+  
+  <Step title="Run the setup script">
+    ```bash
+    chmod +x scripts/setup.sh
+    ./scripts/setup.sh
+    ```
+    
+    This script will:
+    - Install all dependencies
+    - Set up Go modules
+    - Install npm packages
+    - Create environment files
+    - Initialize the database
+  </Step>
+  
+  <Step title="Start the application">
+    ```bash
+    docker-compose up -d
+    ```
+    
+    This will start:
+    - PostgreSQL database on port 5432
+    - Go backend API on port 8080
+    - React frontend on port 5173
+    - Prometheus monitoring on port 9090
+  </Step>
+  
+  <Step title="Access the application">
+    Open your browser and visit:
+    - **Frontend**: http://localhost:5173
+    - **API Docs**: http://localhost:8080/swagger/
+    - **Prometheus**: http://localhost:9090
+  </Step>
+</Steps>
+
+## Option 2: Manual Setup
+
+If you prefer to set up each component manually:
+
+<Steps>
+  <Step title="Start the database">
+    ```bash
+    docker-compose -f docker-compose.dev.yml up -d
+    ```
+  </Step>
+  
+  <Step title="Set up the backend">
+    ```bash
+    cd backend
+    
+    # Initialize Go module
+    go mod init github.com/shravan20/qafka
+    
+    # Install dependencies
+    go mod tidy
+    
+    # Create .env file
+    cat > .env << EOF
+    DATABASE_URL=postgres://qafka_user:qafka_password@localhost:5432/qafka?sslmode=disable
+    API_PORT=8080
+    ENVIRONMENT=development
+    CORS_ORIGINS=http://localhost:5173
+    EOF
+    
+    # Run the backend
+    go run cmd/main.go
+    ```
+  </Step>
+  
+  <Step title="Set up the frontend">
+    ```bash
+    # In a new terminal
+    cd frontend
+    
+    # Install dependencies
+    npm install
+    
+    # Create .env file
+    cat > .env << EOF
+    VITE_API_URL=http://localhost:8080
+    VITE_APP_NAME=Qafka
+    VITE_APP_VERSION=1.0.0
+    EOF
+    
+    # Start the development server
+    npm run dev
+    ```
+  </Step>
+</Steps>
+
+## Verify Installation
+
+Once everything is running, you can verify the installation:
+
+### 1. Check API Health
+
+```bash
+curl http://localhost:8080/health
+```
+
+Expected response:
+```json
+{
+  "status": "healthy"
+}
+```
+
+### 2. Create Your First Queue
+
+```bash
+curl -X POST http://localhost:8080/api/v1/queues \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "test-queue",
+    "description": "My first queue",
+    "type": "fifo",
+    "config": "{}"
+  }'
+```
+
+### 3. Add a Message
+
+```bash
+curl -X POST http://localhost:8080/api/v1/messages \
+  -H "Content-Type: application/json" \
+  -d '{
+    "queue_id": 1,
+    "payload": "Hello, Qafka!",
+    "priority": 1
+  }'
+```
+
+## Next Steps
+
+Now that Qafka is running, you can:
+
+<CardGroup cols={2}>
+  <Card
+    title="Explore the Dashboard"
+    icon="chart-line"
+    href="http://localhost:5173"
+  >
+    Use the web interface to manage queues and messages
+  </Card>
+  <Card
+    title="Read the API Docs"
+    icon="book"
+    href="http://localhost:8080/swagger/"
+  >
+    Learn about all available endpoints
+  </Card>
+  <Card
+    title="Monitor with Prometheus"
+    icon="chart-bar"
+    href="http://localhost:9090"
+  >
+    View metrics and performance data
+  </Card>
+  <Card
+    title="Deploy to Production"
+    icon="server"
+    href="/deployment/docker"
+  >
+    Learn how to deploy Qafka
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+### Port Already in Use
+
+If you get port conflicts, you can modify the ports in `docker-compose.yml`:
+
+```yaml
+services:
+  postgres:
+    ports:
+      - "5433:5432"  # Change from 5432
+  backend:
+    ports:
+      - "8081:8080"  # Change from 8080
+  frontend:
+    ports:
+      - "5174:5173"  # Change from 5173
+```
+
+### Database Connection Issues
+
+Make sure PostgreSQL is running and accessible:
+
+```bash
+# Check if PostgreSQL container is running
+docker ps
+
+# Check logs if there are issues
+docker logs qafka-postgres-dev
+```
+
+### Frontend Build Issues
+
+If you encounter npm/build issues:
+
+```bash
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
+```

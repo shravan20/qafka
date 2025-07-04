@@ -1,0 +1,127 @@
+---
+title: Welcome to Qafka
+description: 'Universal Queue Management Platform for modern applications'
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/hero-light.png"
+  alt="Hero Light"
+/>
+<img
+  className="hidden dark:block"
+  src="/images/hero-dark.png"
+  alt="Hero Dark"
+/>
+
+## What is Qafka?
+
+Qafka is a modern, universal queue management platform designed to handle message queues across different backends with a unified API. Built with Go and React, it provides a scalable solution for managing message queues, workers, and monitoring in distributed systems.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card
+    title="Universal Queue Support"
+    icon="queue"
+    href="/concepts/queues"
+  >
+    Support for multiple queue types: FIFO, Priority, Delay queues with pluggable backends
+  </Card>
+  <Card
+    title="Real-time Monitoring"
+    icon="chart-line"
+    href="/deployment/monitoring"
+  >
+    Built-in Prometheus metrics and beautiful dashboards for queue monitoring
+  </Card>
+  <Card
+    title="Plugin Architecture"
+    icon="plug"
+    href="/plugins/overview"
+  >
+    Extensible plugin system for custom queue backends and alert integrations
+  </Card>
+  <Card
+    title="Modern UI"
+    icon="browser"
+    href="/quickstart"
+  >
+    Beautiful React dashboard with real-time updates and intuitive management
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+Get up and running with Qafka in minutes:
+
+<CodeGroup>
+
+```bash Terminal
+# Clone the repository
+git clone https://github.com/shravan20/qafka.git
+cd qafka
+
+# Run the setup script
+chmod +x scripts/setup.sh
+./scripts/setup.sh
+
+# Start the application
+docker-compose up -d
+```
+
+```bash Manual Setup
+# Start PostgreSQL
+docker-compose -f docker-compose.dev.yml up -d
+
+# Start the backend
+cd backend && go run cmd/main.go
+
+# Start the frontend (in another terminal)
+cd frontend && npm run dev
+```
+
+</CodeGroup>
+
+## Architecture
+
+Qafka follows a modern microservices architecture:
+
+- **Backend**: Go with Fuego framework for high-performance REST API
+- **Frontend**: React with Vite and TypeScript for modern UI
+- **Database**: PostgreSQL with Bun ORM for reliable data storage
+- **Monitoring**: Prometheus for metrics collection
+- **Plugins**: Go-based plugin system for extensibility
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Quick Start Guide"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Get Qafka running locally in 5 minutes
+  </Card>
+  <Card
+    title="API Documentation"
+    icon="code"
+    href="/api/authentication"
+  >
+    Explore the REST API endpoints
+  </Card>
+  <Card
+    title="Deployment Guide"
+    icon="server"
+    href="/deployment/docker"
+  >
+    Deploy Qafka to production
+  </Card>
+  <Card
+    title="Plugin Development"
+    icon="puzzle-piece"
+    href="/plugins/overview"
+  >
+    Build custom plugins for Qafka
+  </Card>
+</CardGroup>

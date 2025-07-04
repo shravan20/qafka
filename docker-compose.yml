@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: qafka-postgres
+    environment:
+      POSTGRES_DB: qafka
+      POSTGRES_USER: qafka_user
+      POSTGRES_PASSWORD: qafka_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - qafka-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qafka_user -d qafka"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Go Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: qafka-backend
+    environment:
+      - DATABASE_URL=postgres://qafka_user:qafka_password@postgres:5432/qafka?sslmode=disable
+      - API_PORT=8080
+      - ENVIRONMENT=development
+      - CORS_ORIGINS=http://localhost:5173
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - qafka-network
+    volumes:
+      - ./backend:/app
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: qafka-frontend
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - qafka-network
+    restart: unless-stopped
+
+  # Prometheus for monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: qafka-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deploy/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - qafka-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  qafka-network:
+    driver: bridge

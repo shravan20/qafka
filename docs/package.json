@@ -1,0 +1,13 @@
+{
+  "name": "qafka-docs",
+  "version": "1.0.0",
+  "description": "Documentation for Qafka Universal Queue Management Platform",
+  "scripts": {
+    "dev": "mintlify dev",
+    "build": "mintlify build",
+    "preview": "mintlify preview"
+  },
+  "devDependencies": {
+    "@mintlify/cli": "^4.0.0"
+  }
+}
