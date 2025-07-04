@@ -67,7 +67,7 @@ This open-source tool enables product teams, platform teams, and microservices t
 
 ---
 
-## 🔧 Tech Stack Suggestions
+## Tech Stack Suggestions
 
 - **Backend:** Node.js (Express/Fastify) / Go / Python (FastAPI)
 - **Kafka Client:** kafkajs / spring-kafka / confluent-kafka-python
@@ -78,7 +78,7 @@ This open-source tool enables product teams, platform teams, and microservices t
 
 ---
 
-## 💡 Example Use Cases
+## Example Use Cases
 
 - Internal tooling for platform/infra teams
 - CI/CD pipelines that need ephemeral queues
