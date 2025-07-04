@@ -7,7 +7,7 @@ This open-source tool enables product teams, platform teams, and microservices t
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 ### Core Queue Management APIs
 - `POST /queues` – Create a topic with config
@@ -87,6 +87,6 @@ This open-source tool enables product teams, platform teams, and microservices t
 
 ---
 
-## 📘 License
+## License
 
 Open Source – Apache 2.0
